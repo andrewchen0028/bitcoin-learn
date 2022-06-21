@@ -5,7 +5,7 @@
 using namespace boost::multiprecision;
 
 FieldElement::FieldElement(uint256_t number, uint256_t characteristic) {
-  // `number` and `characteristic` are both positive.
+  // `number` and `characteristic` are both type uint (positive).
   // Check that `number` is in range [0, characteristic).
   if (number >= characteristic) {
     throw std::invalid_argument(
@@ -17,11 +17,29 @@ FieldElement::FieldElement(uint256_t number, uint256_t characteristic) {
   m_characteristic = characteristic;
 }
 
-std::ostream& operator<<(std::ostream& os, FieldElement const& fe) {
+std::ostream& operator<<(std::ostream& os, const FieldElement& fe) {
   // Display field element characteristic and number.
   return os << "FieldElement_" << fe.getCharacteristic() << "("
             << fe.getNumber() << ")";
 }
+
+FieldElement& FieldElement::operator+=(const FieldElement& rhs) {
+  // Throw exception if characteristics are different.
+  if (this->getCharacteristic() != rhs.getCharacteristic()) {
+    throw std::invalid_argument(
+        "Cannot add elements of different characteristic");
+  }
+
+  // Modular-add rhs.
+  this->m_number += rhs.getNumber();
+  this->m_number %= this->m_characteristic;
+  return *this;
+}
+
+FieldElement operator+(FieldElement lhs, const FieldElement& rhs) {
+  lhs += rhs;  // Reuse compound assignment.
+  return lhs;  // Return the result by value (uses move constructor).
+};
 
 bool operator==(const FieldElement& lhs, const FieldElement& rhs) {
   // Characteristic and number must both be equal.
@@ -31,17 +49,4 @@ bool operator==(const FieldElement& lhs, const FieldElement& rhs) {
 
 bool operator!=(const FieldElement& lhs, const FieldElement& rhs) {
   return !(lhs == rhs);
-};
-
-FieldElement operator+(const FieldElement& lhs, const FieldElement& rhs) {
-  // Throw exception if characteristics are different.
-  if (lhs.getCharacteristic() != rhs.getCharacteristic()) {
-    throw std::invalid_argument(
-        "Field addition undefined for elements of different characteristic");
-  }
-
-  // Add element numbers with characteristic modulus.
-  return FieldElement(
-      (lhs.getNumber() + rhs.getNumber()) % lhs.getCharacteristic(),
-      lhs.getCharacteristic());
 };

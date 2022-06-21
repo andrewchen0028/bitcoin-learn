@@ -1,0 +1,1 @@
+Bitcoin implemented from scratch in C++, following Jimmy Song's textbook "Programming Bitcoin".

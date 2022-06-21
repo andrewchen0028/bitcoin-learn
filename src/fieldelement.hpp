@@ -16,14 +16,15 @@ class FieldElement {
   boost::multiprecision::uint256_t getCharacteristic() const {
     return m_characteristic;
   }
+
+  FieldElement& operator+=(const FieldElement& rhs);
+  friend FieldElement operator+(FieldElement lhs, const FieldElement& rhs);
 };
 
-std::ostream& operator<<(std::ostream& os, FieldElement const& fe);
+std::ostream& operator<<(std::ostream& os, const FieldElement& fe);
 
 bool operator==(const FieldElement& lhs, const FieldElement& rhs);
 
 bool operator!=(const FieldElement& lhs, const FieldElement& rhs);
-
-FieldElement operator+(const FieldElement& lhs, const FieldElement& rhs);
 
 #endif
