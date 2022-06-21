@@ -17,6 +17,13 @@ FieldElement::FieldElement(uint256_t number, uint256_t characteristic) {
   m_characteristic = characteristic;
 }
 
+FieldElement FieldElement::pow(uint exp) {
+  uint256_t n = exp % (this->m_characteristic - 1);
+  uint256_t number =
+      boost::multiprecision::powm(this->m_number, n, this->m_characteristic);
+  return FieldElement(number, this->m_characteristic);
+}
+
 std::ostream& operator<<(std::ostream& os, const FieldElement& fe) {
   // Display field element characteristic and number.
   return os << "FieldElement_" << fe.getCharacteristic() << "("

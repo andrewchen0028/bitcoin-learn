@@ -19,6 +19,8 @@ class FieldElement {
     return m_characteristic;
   }
 
+  FieldElement pow(uint exp);
+
   FieldElement& operator+=(const FieldElement& rhs);
   FieldElement& operator-=(const FieldElement& rhs);
   FieldElement& operator*=(const FieldElement& rhs);
