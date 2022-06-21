@@ -40,10 +40,12 @@ int main() {
     std::cout << "Checkpoint: operator* [field]\n";
   }
 
-  // {  a = FieldElement(24, 31);
-  //   b = 2;
-  //   self.assertEqual(b * a, a + a);
-  //   std::cout << "Checkpoint: operator* [scalar]\n";}
+  {
+    FieldElement a(24, 31);
+    uint b = 2;
+    assert(b * a == a + a);
+    std::cout << "Checkpoint: operator* [scalar]\n";
+  }
 
   {
     FieldElement a(17, 31);

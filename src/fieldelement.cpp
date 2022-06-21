@@ -87,6 +87,11 @@ FieldElement operator*(FieldElement lhs, const FieldElement& rhs) {
   return lhs;  // Return the result by value (uses move constructor).
 };
 
+FieldElement operator*(uint lhs, const FieldElement& rhs) {
+  return FieldElement((lhs * rhs.m_number) % rhs.m_characteristic,
+                      rhs.m_characteristic);
+}
+
 bool operator==(const FieldElement& lhs, const FieldElement& rhs) {
   // Characteristic and number must both be equal.
   return lhs.getNumber() == rhs.getNumber() &&
