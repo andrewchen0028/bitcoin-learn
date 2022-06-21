@@ -18,5 +18,11 @@ int main() {
   assert(b + b + b == FieldElement(1, 11));
   std::cout << "Checkpoint: operator+ (wrapped)\n";
 
+  assert(b - a == a);
+  std::cout << "Checkpoint: operator-\n";
+
+  assert(a - b == FieldElement(9, 11));
+  std::cout << "Checkpoint: operator- (wrapped)\n";
+
   return 0;
 }

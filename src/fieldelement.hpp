@@ -18,7 +18,9 @@ class FieldElement {
   }
 
   FieldElement& operator+=(const FieldElement& rhs);
+  FieldElement& operator-=(const FieldElement& rhs);
   friend FieldElement operator+(FieldElement lhs, const FieldElement& rhs);
+  friend FieldElement operator-(FieldElement lhs, const FieldElement& rhs);
 };
 
 std::ostream& operator<<(std::ostream& os, const FieldElement& fe);

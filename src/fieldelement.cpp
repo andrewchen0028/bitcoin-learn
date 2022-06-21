@@ -36,8 +36,29 @@ FieldElement& FieldElement::operator+=(const FieldElement& rhs) {
   return *this;
 }
 
+FieldElement& FieldElement::operator-=(const FieldElement& rhs) {
+  // Throw exception if characteristics are different.
+  if (this->getCharacteristic() != rhs.getCharacteristic()) {
+    throw std::invalid_argument(
+        "Cannot subtract elements of different characteristic");
+  }
+
+  // Modular-subtract rhs.
+  if (this->m_number >= rhs.getNumber()) {
+    this->m_number -= rhs.getNumber();
+  } else {
+    this->m_number = this->m_characteristic - rhs.getNumber() + this->m_number;
+  }
+  return *this;
+}
+
 FieldElement operator+(FieldElement lhs, const FieldElement& rhs) {
   lhs += rhs;  // Reuse compound assignment.
+  return lhs;  // Return the result by value (uses move constructor).
+};
+
+FieldElement operator-(FieldElement lhs, const FieldElement& rhs) {
+  lhs -= rhs;  // Reuse compound assignment.
   return lhs;  // Return the result by value (uses move constructor).
 };
 
