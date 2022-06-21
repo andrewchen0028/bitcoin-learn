@@ -3,6 +3,8 @@
 
 #include <boost/multiprecision/cpp_int.hpp>
 
+// NOTE: This field element arithmetic is quite possibly broken, especially if
+// uint256_t over/underflows are involved.
 class FieldElement {
  private:
   boost::multiprecision::uint256_t m_number;
@@ -19,8 +21,10 @@ class FieldElement {
 
   FieldElement& operator+=(const FieldElement& rhs);
   FieldElement& operator-=(const FieldElement& rhs);
+  FieldElement& operator*=(const FieldElement& rhs);
   friend FieldElement operator+(FieldElement lhs, const FieldElement& rhs);
   friend FieldElement operator-(FieldElement lhs, const FieldElement& rhs);
+  friend FieldElement operator*(FieldElement lhs, const FieldElement& rhs);
 };
 
 std::ostream& operator<<(std::ostream& os, const FieldElement& fe);
